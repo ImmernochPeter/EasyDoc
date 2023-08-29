@@ -13,6 +13,8 @@ public class Runner {
         CLInteractor.DrawLine("#".ToArray()[0], 30, true, 10);
         while (goOn) {
             var input = CLInteractor.GetInput("(EasyDoc)#");
+            var way = Navigation.MapToWay(input);
+            goOn = Navigation.Go(way);
         }
     }
 }
