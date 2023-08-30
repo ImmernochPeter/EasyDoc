@@ -11,6 +11,10 @@ public static class CLInteractor {
         return input;
     }
 
+    public static void Clear() {
+        System.Console.Clear();
+    }
+
     public static void WriteLine(string tMessage) {
         System.Console.WriteLine(tMessage);
     }
