@@ -6,6 +6,8 @@ using System.Text.Json;
 
 public class Config {
 
+	public int AnimationTime { get; set; }
+	public List<InFile>? Files { get; set; }
 	public string Path { get; set; }
 	public bool Animation { get; set; }
 	public Language Language { get; set; }
@@ -54,6 +56,14 @@ public class Config {
 		}
 	}
 
+	private static InFile MapToInFile(string tPath) {
+		return new InFile(tPath);
+	}
+
+	private List<string> MapToStringList(string tString) {
+		return tString.Split(",").ToList();
+	}
+
 	private void ReadFromJson(string filePath) {
 		try {
 			var json = File.ReadAllText(filePath);
@@ -67,6 +77,15 @@ public class Config {
 			this.DocLanguage = MapToDocLanguage(docSettings.GetProperty("doc-language").GetString());
 			this.View = MapToView(docSettings.GetProperty("view").GetString());
 			this.CustomFooter = docSettings.TryGetProperty("custom-footer", out var customFooterElement) ? customFooterElement.GetString() : null;
+			var files = root.GetProperty("files").GetString();
+			if (files != null) {
+				var fileString = this.MapToStringList(files);
+				this.Files = new List<InFile> { };
+				foreach (var item in fileString) {
+					this.Files.Add(MapToInFile(item));
+				}
+			}
+
 		} catch (Exception ex) {
 			Console.WriteLine("Critical ERROR: " + ex.Message);
 		}
