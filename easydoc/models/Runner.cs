@@ -14,7 +14,7 @@ public class Runner {
         while (goOn) {
             var input = CLInteractor.GetInput("(EasyDoc)#");
             var way = Navigation.MapToWay(input);
-            goOn = Navigation.Go(way, config);
+            goOn = Navigation.Go(way, config, input);
         }
     }
 }

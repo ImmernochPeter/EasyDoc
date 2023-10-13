@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 
 public class Navigation {
 	public static Way MapToWay(string tInput) {
-		switch (tInput.ToLower()) {
+		switch (tInput.ToLower().Split(" ")[0]) {
 			case "quit":
 				return Way.quit;
 			case "doc":
@@ -38,12 +38,22 @@ public class Navigation {
 		CLInteractor.WriteLine("");
 	}
 
-	public static bool Go(Way way, Config config) {
+	public static bool Go(Way way, Config config, string tInput) {
 		switch (way) {
 			case Way.quit:
 				return false;
 			case Way.help:
 				ShowHelp(config);
+				break;
+			case Way.doc:
+				if (config.Files != null) {
+					var docF = new Docs(config, tInput, config.Files);
+					docF.navigate();
+					break;
+				}
+				var doc = new Docs(config, tInput);
+				doc.navigate();
+
 				break;
 			case Way.unkown:
 				CLInteractor.WriteLine("Unkown command");
