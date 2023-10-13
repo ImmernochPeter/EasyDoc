@@ -14,6 +14,8 @@ public class Config {
 	public DocLanguage DocLanguage { get; set; }
 	public View View { get; set; }
 	public string? CustomFooter { get; set; }
+	public string ProjectTitle { get; set; }
+	public string? Dir { get; set; }
 
 
 	private static Language MapToLanguage(string? tLanguage) {
@@ -77,22 +79,24 @@ public class Config {
 			this.DocLanguage = MapToDocLanguage(docSettings.GetProperty("doc-language").GetString());
 			this.View = MapToView(docSettings.GetProperty("view").GetString());
 			this.CustomFooter = docSettings.TryGetProperty("custom-footer", out var customFooterElement) ? customFooterElement.GetString() : null;
-			var files = root.GetProperty("files").GetString();
-			if (files != null) {
-				var fileString = this.MapToStringList(files);
-				this.Files = new List<InFile> { };
-				foreach (var item in fileString) {
-					this.Files.Add(MapToInFile(item));
-				}
+			var projTitle = root.GetProperty("project-title").GetString();
+			if (projTitle != null) {
+				this.ProjectTitle = projTitle;
+			}
+			this.Dir = root.GetProperty("dir").GetString();
+			if (this.Dir != null) {
+				this.Files = FileFinder.getFiles(this.Dir);
 			}
 
 		} catch (Exception ex) {
 			Console.WriteLine("Critical ERROR: " + ex.Message);
+			Console.ReadLine();
 		}
 	}
 
 	public Config(string tPath) {
 		this.Path = tPath;
+		this.ProjectTitle = "Project Title";
 		this.ReadFromJson(this.Path);
 	}
 

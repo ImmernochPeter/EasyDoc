@@ -6,5 +6,6 @@
 		"custom-footer": "",
 		"view": "splitted"
 	},
-	"files": "abc.py,efg.py,hij.py"
+	"dir": "/home/peter/src/cs/EasyDoc/example_dir",
+	"project-title": "Taschenrechner"
 }

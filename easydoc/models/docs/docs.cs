@@ -6,16 +6,19 @@ public class Docs {
 	private readonly Config config;
 	public List<InFile> Files { get; set; }
 	public List<string> Command { get; set; }
+	public MdBuilder Markdown { get; set; }
 
 	public Docs(Config tConfig, string tCommand, List<InFile> tFiles) {
 		this.Files = tFiles;
 		this.config = tConfig;
 		this.Command = tCommand.Split(" ").ToList();
+		this.Markdown = new MdBuilder(this.config);
 	}
 	public Docs(Config tConfig, string tCommand) {
 		this.config = tConfig;
 		this.Files = new List<InFile> { };
 		this.Command = tCommand.Split(" ").ToList();
+		this.Markdown = new MdBuilder(this.config);
 	}
 
 	public void appendFiles(InFile tFile) {
@@ -40,6 +43,9 @@ public class Docs {
 	public void navigate() {
 		if (this.Command.Count == 2 && this.Command[1] == "files") {
 			this.show_all_files();
+		}
+		if (this.Command.Count == 2 && this.Command[1] == "build") {
+			this.Markdown.build();
 		}
 	}
 
