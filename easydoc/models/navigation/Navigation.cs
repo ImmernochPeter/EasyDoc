@@ -1,3 +1,4 @@
+using System;
 namespace EasyDoc;
 
 using System.Runtime.InteropServices;

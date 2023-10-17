@@ -90,9 +90,7 @@ public class MdBuilder {
 			Console.WriteLine("Classes:");
 			var cfinder = new ClassFinder(this.Configuration.Files);
 			var classes = cfinder.GetAllClasses();
-			foreach (var item in classes) {
-				Console.WriteLine(item.Item1);
-			}
+			Console.WriteLine(classes.Count());
 
 		}
 	}

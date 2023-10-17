@@ -18,23 +18,25 @@ public class ClassFinder {
 	public List<Tuple<string, string>> GetAllClasses() {
 		var classSections = new List<Tuple<string, string>>();
 
+
 		foreach (var file in this.Files) {
-			var content = this.GetFileContent(file.path);
-			var lines = content;
+			var lines = this.GetFileContent(file.path);
 			var currentClass = new StringBuilder();
-			var indentationLevel = 0;
+			var inClass = false;
 
 			foreach (var line in lines) {
-				if (line.Trim().StartsWith("class ") && indentationLevel == 0) {
+				if (line.Trim().StartsWith("class ")) {
+
+
 					currentClass = new StringBuilder(line);
-					indentationLevel = line.Length - line.TrimStart().Length;
-				} else if (indentationLevel > 0) {
+					inClass = true;
+				} else if (line.StartsWith("\t") && inClass) {
 					currentClass.AppendLine(line);
-					if (line.Length - line.TrimStart().Length <= indentationLevel) {
-						classSections.Add(Tuple.Create(currentClass.ToString(), file.path));
-						currentClass = new StringBuilder();
-						indentationLevel = 0;
-					}
+
+				} else if (inClass) {
+					inClass = false;
+					classSections.Add(Tuple.Create(currentClass.ToString(), file.path));
+
 				}
 			}
 		}

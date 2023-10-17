@@ -6,6 +6,6 @@
 		"custom-footer": "",
 		"view": "splitted"
 	},
-	"dir": "/home/peter/src/cs/EasyDoc/example_dir",
+	"dir": "../examples",
 	"project-title": "Taschenrechner"
 }
